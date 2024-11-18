@@ -1,4 +1,4 @@
-package exp2;
+package expression.simple;
 
 public sealed interface Expr<T> {
 

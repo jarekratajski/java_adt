@@ -1,4 +1,4 @@
-package arithm;
+package containers;
 
 sealed interface Optional<T> {
     record Some<T>(T value) implements Optional<T> {}

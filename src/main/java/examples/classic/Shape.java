@@ -1,4 +1,4 @@
-package org.example.classic;
+package examples.classic;
 
 public interface Shape {
 

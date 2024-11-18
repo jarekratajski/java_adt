@@ -1,4 +1,4 @@
-package exp2;
+package expression.simple;
 
 public class ExampleExpr {
 
@@ -10,6 +10,7 @@ public class ExampleExpr {
             var a3 = new IntExpr(3);
             var e1 = new Sum(a1, a2);
             var e2 = new Sum(a3, e1);
-            exampleExpr = e2;
+            var e3 = new Sub(e2, a1);
+            exampleExpr = e3;
     }
 }

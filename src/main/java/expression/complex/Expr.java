@@ -1,4 +1,4 @@
-package expression;
+package expression.complex;
 
 
 sealed interface Alg<T extends Alg> {
@@ -82,17 +82,6 @@ record Add<T extends Alg<T>>(Expr<T> left, Expr<T> right) implements Expr<T> {
 
 }
 
-//record Mul<T extends Alg<T>>(Expr<T> left, Expr<T> right) implements Expr<T> {
-//
-//    @Override
-//    public T eval() {
-//        return switch (left.eval()) {
-//            case Integer l -> (T) (Integer) (l * (Integer) right.eval());
-//            case Double l -> (T) (Double) (l * (Double) right.eval());
-//            default -> throw new IllegalArgumentException("Unsupported type");
-//        };
-//    }
-//}
 
 record Eq<T extends Alg<T>>(Expr<T> left, Expr<T> right) implements Expr<NBoolean> {
 

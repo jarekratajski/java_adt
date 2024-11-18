@@ -1,4 +1,4 @@
-package org.example.anyadt;
+package examples.anyadt;
 
 sealed class A {
     int a;

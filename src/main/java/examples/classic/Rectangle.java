@@ -1,4 +1,4 @@
-package org.example.classic;
+package examples.classic;
 
 public class Rectangle extends Square {
     final int b;

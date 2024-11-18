@@ -1,5 +1,5 @@
 package perf;
-import exp2.ExampleExpr;
+import expression.simple.ExampleExpr;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.State;

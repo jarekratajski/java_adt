@@ -1,6 +1,6 @@
-package expression;
+package expression.complex;
 
-public class MainExpr {
+public class Main {
 
         public static void main(String[] args) {
             NBoolean a = new NBoolean(true);

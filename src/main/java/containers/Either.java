@@ -1,4 +1,4 @@
-package arithm;
+package containers;
 
 sealed interface Either<T, U> {
 

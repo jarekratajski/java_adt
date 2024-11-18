@@ -1,4 +1,4 @@
-package exp2;
+package expression.simple;
 
 class Main {
     void main(String[] args) {
