@@ -58,7 +58,7 @@ sealed interface Expr<T extends Alg<T>> {
         return switch (this) {
             case Lit<T> l -> l.t().show();
             case Add<T> a -> a.left().show() + " + " + a.right().show();
-//            case Mul<T> m -> m.left().show() + " * " + m.right().show();
+//           case Mul<T> m -> m.left().show() + " * " + m.right().show();
             case Eq<?> e -> e.left().show() + " == " + e.right().show();
         };
     }

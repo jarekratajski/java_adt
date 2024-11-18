@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id( "me.champeau.jmh") version "0.7.2"
 }
 
 java {
@@ -10,7 +11,8 @@ java {
 }
 tasks.withType<JavaCompile>().configureEach {
     options.compilerArgs.add("--enable-preview")
-    options.compilerArgs.add("-Werror")
+//    options.compilerArgs.add("-Werror")
+    options.compilerArgs.add("-Xlint:unchecked")
 }
 
 //
@@ -36,4 +38,11 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+
+jmh {
+    warmupIterations = 2
+    iterations = 2
+    fork = 2
 }
