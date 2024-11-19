@@ -8,43 +8,41 @@ public sealed interface Expr<T> {
 
     default String show() {
         return switch (this) {
-            case IntExpr i when i.v() <0 -> "("+i.v().toString()+")";
-            case IntExpr i -> i.v().toString();
-            case BoolExpr b -> b.v().toString();
-            case Sum<T> s -> "("+s.left().show() + " + " + s.right().show()+")";
-            case Sub<T> s -> "("+s.left().show() + " - " + s.right().show()+")";
+            case IntExpr(var i)  when i  <0 -> "("+i+")";
+            case IntExpr(var s) -> s.toString();
+            case BoolExpr(var b) -> b.toString();
+            case Sum(var left, var right) -> "("+left.show() + " + " + right.show()+")";
+            case Sub(var left, var right) -> "("+left.show() + " - " + right.show()+")";
             case Product<T> p -> "("+p.left().show() + " * " + p.right().show()+")";
-            case Eq<?> e -> e.left().show() + " == " + e.right().show();
+            case Eq<?>(var left, var right) -> left.show() + " == " + right.show();
         };
     }
     default T eval() {
         return switch (this) {
-            case IntExpr i -> (T)i.v();
-            case BoolExpr b -> (T)b.v();
-            case Sum<T> s -> switch (s.left().eval()) {
-                case Integer v ->(T) (Integer)(v + (Integer) s.right().eval());
-                case Boolean v -> (T) (Boolean)(v | (Boolean) s.right().eval());
-                default -> throw new IllegalStateException("Unexpected value: " + s.left().eval());
+            case IntExpr(var i)  -> (T)i;
+            case BoolExpr(var b) -> (T)b;
+            case Sum(var left, var right) -> switch (left.eval()) {
+                case Integer v ->(T) (Integer)(v + (Integer) right.eval());
+                case Boolean v -> (T) (Boolean)(v | (Boolean) right.eval());
+                default -> throw new IllegalStateException("Unexpected value: " + left.eval());
             };
             case Sub<T> s -> switch (s.left().eval()) {
                 case Integer v ->(T) (Integer)(v - (Integer) s.right().eval());
                 default -> throw new IllegalStateException("Unexpected value: " + s.left().eval());
             };
-            case Product<T> p -> switch (p.left().eval()) {
-                case Integer v -> (T) (Integer)(v * (Integer) p.right().eval());
-                default -> throw new IllegalStateException("Unexpected value: " + p.left().eval());
+            case Product(var left, var right)  -> switch (left.eval()) {
+                case Integer v -> (T) (Integer)(v * (Integer) right.eval());
+                default -> throw new IllegalStateException("Unexpected value: " + left.eval());
             };
-            case Eq<?> e -> (T) (Boolean)(e.left().eval().equals(e.right().eval()));
+            case Eq<?>(var left, var right)  -> (T) (Boolean)(left.eval().equals(right.eval()));
         };
     }
 
     default Expr<T> norm() {
         return switch (this) {
-            case Sub<T> s -> switch (s.right()) {
-                case Sub<T> r -> new Sum(s.left(), new Sub(r.right(), r.left()).norm()); //story about norm here
-                case IntExpr i when i.v() < 0-> new Sum(s.left(), new IntExpr(-i.v()));
-                default -> s;
-            };
+            case Sub(var left, IntExpr(var i)) when i<0 -> new Sum(left, new IntExpr(-i));
+            case Sub(var left, Sub(var innerLeft, var innerRight))  ->
+                new Sum(left, new Sub(innerRight, innerLeft).norm());
             default -> this;
         };
     }
