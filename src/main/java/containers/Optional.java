@@ -3,20 +3,20 @@ package containers;
 sealed interface Optional<T> {
     record Some<T>(T value) implements Optional<T> {}
 
-   None NONE = new None();
+   enum NONE implements Optional<Void> {
+       INSTANCE;
+   }
 
     static <T> Optional<T> none() {
-        return (Optional<T>) NONE;
+        return (Optional<T>) NONE.INSTANCE;
     }
 
-    final static class None implements Optional<Void> {
-        private None() { }
-    }
+
 
     default String show()  {
         return switch(this) {
             case Some<T> s -> "Some(" + s.value + ")";
-            case None n -> "None";
+            case NONE  _ -> "None";
         };
     }
 
